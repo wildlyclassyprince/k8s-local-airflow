@@ -12,7 +12,7 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort  | awk 'BEGIN {FS = ":.*?##"}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 check-context:
-	@if [ "$$(kubectl config current-context)" != "docker-desktop" ]; then echo "Error: not in docker-desktop context"; exit 1; fi
+	@if [ "$$(kubectl config current-context)" != "docker-desktop" ]; then echo "Error: not in docker-desktop context - run 'kubectl config use-context docker-desktop' to fix"; exit 1; fi
 
 install: check-context
 	kubectl create namespace $(NAMESPACE)
