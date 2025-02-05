@@ -172,3 +172,9 @@ cython_debug/
 
 # k8s
 values.yaml
+charts/
+
+# Airflow
+airflow/dags/dag_processor_manager/
+airflow/dags/scheduler/
+airflow/logs/*
