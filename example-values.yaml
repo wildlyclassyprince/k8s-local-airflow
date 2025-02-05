@@ -1,0 +1,46 @@
+hostPath:
+  dags: "absolute-path-to-airflow-dags"
+  logs: "absolute-path-to-airflow-logs"
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 250m
+  limits:
+    memory: 1Gi
+    cpu: 500m
+
+airflow:
+  executor: KubernetesExecutor
+  dags:
+    persistence:
+      enabled: true
+      storageClassName: manual
+      size: 1Gi
+      accessMode: ReadWriteMany
+
+  logs:
+    persistence:
+      enabled: true
+      storageClassName: manual
+      size: 1Gi
+
+  redis:
+    enabled: false
+
+  extraPipPackages:
+    - "-r /opt/airflow/requirements/requirements.txt"
+
+  configMaps:
+    requirements:
+      data: {}
+
+  extraVolumeMounts:
+    - name: requirements
+      mountPath: /opt/airflow/requirements
+      readOnly: true
+  
+  extraVolumes: 
+    - name: requirements
+      configMap:
+        name: airflow-requirements
